@@ -15,12 +15,12 @@ services:
     build:
       context: ./
     restart: unless-stopped
-    env_file: .env
+    env_file: ./server/.env
     container_name: clocker_web
     depends_on:
       - clocker_db
     volumes:
-      - ./:/var/www/mini-project
+      - ./server:/var/www/mini-project
     ports:
       - "8100:80"
       - "8101:9000"
