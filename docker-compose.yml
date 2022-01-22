@@ -1,24 +1,28 @@
 version: '3'
 
 services:
-  db:
+  clocker_db:
+    container_name: clocker_db
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: my_secret_pw_shh
-      MYSQL_DATABASE: test_db
+      MYSQL_DATABASE: clocker
       MYSQL_USER: devuser
       MYSQL_PASSWORD: devpass
     ports:
-      - "9906:3306"
-  web:
+      - "3306:3306"
+  clocker_web:
     build:
       context: ./
-    container_name: php
+    restart: unless-stopped
+    env_file: .env
+    container_name: clocker_web
     depends_on:
-      - db
+      - clocker_db
     volumes:
-      - ./:/var/www/html/
+      - ./:/var/www/mini-project
     ports:
       - "8100:80"
+      - "8101:9000"
     stdin_open: true
     tty: true

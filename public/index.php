@@ -1,14 +1,9 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 
-// Autoloader
-require_once '../vendor/autoload.php';
+use App\Kernel;
 
-// Load Config
-require_once '../config/config.php';
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-// Routes
-require_once '../routes/web.php';
-require_once '../src/Router.php';
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};
