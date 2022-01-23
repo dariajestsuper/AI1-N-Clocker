@@ -25,9 +25,9 @@ const generate = async () => {
         console.log('Coping generated files into '+pathToService+'...')
         await copyFromTemp(path);
         console.log('\x1b[32m', 'OK 👌', '\x1b[0m')
-        console.log('Correcting generated model names...')
-        await executeRenameCommand();
-        console.log('\x1b[32m', 'OK 👌', '\x1b[0m')
+        // console.log('Correcting generated model names...')
+        // await executeRenameCommand();
+        // console.log('\x1b[32m', 'OK 👌', '\x1b[0m')
 
         fs.rmdirSync(path, { recursive: true });
     } catch (e) {

@@ -1,16 +1,14 @@
-import {ApiClient} from "@/js/services/ApiClient";
+import {ApiClient, TokenApi, UserApi} from "@/js/services/ApiClient";
 
 class Client extends ApiClient {
-    constructor(token) {
+    constructor(token = null) {
         super();
-        this.authentications['oauth2'].accessToken = token;
-        this.basePath = loadConfiguration()?.apiUrl?.slice(0, -1) || '';
-        /// #if OAUTH_FLOW === 'password'
+        if(token) this.authentications['oauth2'].accessToken = token;
+        this.basePath = 'http://localhost:8100/'.replace(/\/+$/, '');
         this.defaultHeaders = { credentials: 'no' };
-        /// #else
-        /// #code this.enableCookies = true;
-        /// #endif
+        //this.enableCookies = true;
     }
 }
 
-export const Customers = (token) => new CustomersApi(new Client(token));
+export const Users = (token) => new UserApi(new Client(token));
+export const Token = () => new TokenApi(new Client(null))

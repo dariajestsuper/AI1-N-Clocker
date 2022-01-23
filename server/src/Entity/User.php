@@ -10,6 +10,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
+    itemOperations: [
+    'get' => [
+        'method' => 'GET',
+        'controller' => 'none',
+    ]],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     routePrefix: '/api',

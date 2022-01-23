@@ -12,14 +12,68 @@ body {
   max-width: $page-width;
 }
 
-h1 {
-  margin: 0 0 2rem;
+#topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  box-sizing: border-box;
+  height: 4rem;
+  background-color: $lighter;
+  left:0;
+  top:0;
+  h1 {
+    cursor:pointer;
+  }
+}
+#router-base {
+  position: relative;
+  top: 4rem;
 }
 
-.image {
-  display: inline-block;
-  height: 100px;
-  width: 100px;
-  background-image: url('~assets/example.png');
-  background-size: cover;
+.subtitle {
+  margin: 0.5rem;
+  font-weight: 100;
+}
+
+#subtitle-wrapper {
+  display: flex;
+  max-width: 400px;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
+}
+#login-form {
+  .button {
+    margin: 2rem 2rem 1rem;
+  }
+}
+.paper {
+  width: 400px;
+  height: 270px;
+  margin: 100px auto auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $darker 0 1rem 2rem;
+  border-radius: 0.1rem;
+  justify-content: center;
+  align-items: center;
+  background-color: $lighter;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.button {
+  background: none;
+  border: none;
+  color: $font-color;
+  font-size: $font-size;
+  cursor: pointer;
+  &:hover {
+    color: $secondary-color;
+  }
 }

@@ -47,6 +47,8 @@ module.exports = {
   // Determine how modules within the project are treated
   module: {
     rules: [
+        //JSX loader
+      { test: /\.jsx$/, use: ['babel-loader'] },
       // JavaScript: Use Babel to transpile JavaScript files
       { test: /\.js$/, use: ['babel-loader'] },
 
@@ -59,6 +61,9 @@ module.exports = {
   },
 
   resolve: {
+    fallback:{
+      "fs": false
+    },
     modules: [paths.src, 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
     alias: {
