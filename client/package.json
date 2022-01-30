@@ -34,6 +34,7 @@
     "eslint-import-resolver-webpack": "^0.13.1",
     "eslint-plugin-prettier": "^4.0.0",
     "html-webpack-plugin": "^5.3.2",
+    "jsx-pragma": "^1.0.6",
     "jsx-vanilla-loader": "^1.0.1",
     "mini-css-extract-plugin": "^2.4.2",
     "postcss-loader": "^6.2.0",

@@ -48,7 +48,7 @@ module.exports = {
   module: {
     rules: [
         //JSX loader
-      { test: /\.jsx$/, use: ['babel-loader'] },
+      // { test: /\.jsx$/, use: ['babel-loader'] },
       // JavaScript: Use Babel to transpile JavaScript files
       { test: /\.js$/, use: ['babel-loader'] },
 

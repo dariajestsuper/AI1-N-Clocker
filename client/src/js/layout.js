@@ -1,30 +1,20 @@
 import {routerId} from "@/config/consts";
-import {create} from "@/js/render/base";
-import {Button} from "@/js/components/button";
 import {navigateTo} from "@/index";
 
 export const Layout = () => {
-    const base = document.createElement("div");
-    base.id = "layout";
-    const routerBase = document.createElement("div");
-    routerBase.id = routerId;
-    base.append(Topbar());
-    base.append(routerBase);
-    return base;
+
+    return (
+        <div id="layout">
+            <Topbar className="logo-sign" id="topbar"/>
+            <div id={routerId}/>
+        </div>);
 }
 
-const Topbar = () => {
-    const children = [
-        create({
-            classList: ["logo-sign"], onClick: () => {
-                navigateTo("/")
-            }
-        }, [() => 'Clocker 🕑'], 'h1'),
-        Button({
-            text: 'Login', onClick: () => {
-                navigateTo("/login")
-            }
-        })]
-    const bar = create({id: 'topbar'}, children);
-    return bar();
+const Topbar = ({attributes}) => {
+    return (
+        <div {...attributes}>
+            <h1 eventListener={['click',()=>{navigateTo('/')}]}>Clocker 🕑</h1>
+            <button className="button" eventListener={['click',()=>{navigateTo('/login')}]}>Login</button>
+        </div>
+    );
 }

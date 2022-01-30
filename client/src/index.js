@@ -1,12 +1,15 @@
-// Test import of styles
 import '@/styles/index.scss'
 import {Layout} from "@/js/layout";
 import Router from "@/js/router";
 import {routes} from "@/js/routes";
 import {routerId} from "@/config/consts";
 
+
+
 const app = document.querySelector('#root')
-app.append(Layout())
+
+app.append(<Layout/>);
+
 const router = new Router(routes,routerId);
 
 const navigateTo = (path, state, silent) => {

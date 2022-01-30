@@ -1,6 +1,4 @@
-import {create} from "@/js/render/base";
-
-export const Button = ({text,onClick}) => {
-    console.log(text,onClick)
-    return create({classList:["button"], onClick},[()=>text],'button');
+export const Button = (props) => {
+    // console.log(text,onClick)
+    return <button>{props.children}</button>
 }

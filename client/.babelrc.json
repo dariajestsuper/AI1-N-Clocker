@@ -8,12 +8,13 @@
     [
       "@babel/plugin-transform-react-jsx",
       {
-        "pragma": "jsxVanilla"
+        "pragma": "h"
       }
     ],
     ["babel-plugin-jsx-pragmatic", {
-      "module": "jsx-vanilla",
-      "import": "jsxVanilla"
+      "module": "jsx-pragma",
+      "import": "h",
+      "export": "h"
     }]
   ]
 }

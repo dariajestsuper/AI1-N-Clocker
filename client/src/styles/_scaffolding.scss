@@ -50,6 +50,10 @@ body {
     margin: 2rem 2rem 1rem;
   }
 }
+
+#title-landing {
+  margin: 5rem;
+}
 .paper {
   width: 400px;
   height: 270px;
@@ -69,11 +73,22 @@ body {
 
 .button {
   background: none;
-  border: none;
-  color: $font-color;
+  border: transparent solid 1px;
+  color: $secondary-color;
   font-size: $font-size;
   cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
   &:hover {
-    color: $secondary-color;
+    color: $font-color;
+    box-shadow: $darker 0 0.2rem 0.5rem;
+    border: $secondary-color solid 1px;
   }
+}
+.text-field {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem ;
+  border: none;
+  font-size: $font-size;
+  font-family: $font-family;
 }

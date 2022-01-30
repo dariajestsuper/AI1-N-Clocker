@@ -1,14 +1,24 @@
-import {ApiClient, TokenApi, UserApi} from "@/js/services/ApiClient";
+export default class ApiClient {
+    basePath = '127.0.0.1:8100';
+    token = '';
 
-class Client extends ApiClient {
     constructor(token = null) {
-        super();
-        if(token) this.authentications['oauth2'].accessToken = token;
-        this.basePath = 'http://localhost:8100/'.replace(/\/+$/, '');
-        this.defaultHeaders = { credentials: 'no' };
-        //this.enableCookies = true;
+        this.token = token;
+    }
+
+    async getToken(body) {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        const init = {
+            method: 'post',
+            headers,
+            body,
+            mode: 'cors',
+            cache: 'default'
+        };
+        const request = new Request(this.basePath + '/login')
+        const response = await fetch(request, init);
+        return await response.json();
     }
 }
-
-export const Users = (token) => new UserApi(new Client(token));
-export const Token = () => new TokenApi(new Client(null))
