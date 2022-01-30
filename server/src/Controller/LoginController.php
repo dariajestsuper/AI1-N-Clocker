@@ -9,7 +9,6 @@ use App\Repository\UserRepository;
 use App\Service\JwtService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouteCollection;
 use OpenApi\Attributes as OA;
 
 class LoginController

@@ -29,7 +29,8 @@ class EntityManager
             'host' => 'clocker_db',
             'driver' => 'pdo_mysql',
         );
-
-        return EM::create($conn, $config);
+        $em = EM::create($conn, $config);
+        $em->clear();
+        return $em;
     }
 }

@@ -24,9 +24,10 @@ use DomainException;
 class Router
 {
     private const ROUTE_GUARD_CONFIG = [
-        '/api' => 'ROLE_USER',
-        '/admin' => 'ROLE_ADMIN',
+        '/api' => ['ROLE_USER'],
+        '/admin' => ['ROLE_ADMIN']
     ];
+
     public function __invoke(RouteCollection $routes)
     {
         $context = new RequestContext();
@@ -36,20 +37,24 @@ class Router
         // Routing can match routes with incoming requests
         $matcher = new UrlMatcher($routes, $context);
         try {
-            $matcher = $matcher->match($_SERVER['REQUEST_URI']??'');
-
-            array_walk($matcher, function(&$param)
-            {
-                if(is_numeric($param))
-                {
-                    $param = (int) $param;
+            $matcher = $matcher->match($_SERVER['REQUEST_URI'] ?? '');
+            [$isGuarded, $roles] = $this->checkGuard($_SERVER['REQUEST_URI']);
+            if ($isGuarded) {
+                $this->validateToken($request,$roles);
+            }
+            array_walk(
+                $matcher,
+                function (&$param) {
+                    if (is_numeric($param)) {
+                        $param = (int)$param;
+                    }
                 }
-            });
+            );
 
             $className = $matcher['controller'];
             $classInstance = new $className();
 
-            $params = array_merge(array_slice($matcher, 2, -1), ['request'=>$request]);
+            $params = array_merge(array_slice($matcher, 2, -1), ['request' => $request]);
 
             $response = call_user_func_array(array($classInstance, $matcher['method']), $params);
 
@@ -59,30 +64,46 @@ class Router
                 $this->formatError($exception->getMessage()),
                 Response::HTTP_UNAUTHORIZED
             );
-        }catch (ValidationException $exception) {
+        } catch (ValidationException $exception) {
             $response = new Response($this->formatError($exception->getMessage()));
         } catch (NoConfigurationException | ResourceNotFoundException | MethodNotAllowedException $e) {
-            $response = new Response($this->formatError(),Response::HTTP_NOT_FOUND);
+            $response = new Response($this->formatError(), Response::HTTP_NOT_FOUND);
         } catch (\Exception $exception) {
-            $response = new Response($this->formatError(),Response::HTTP_INTERNAL_SERVER_ERROR);
+            var_dump($exception);
+            $response = new Response($this->formatError(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        if($response instanceof Response) {
+        if ($response instanceof Response) {
             $response->send();
         }
     }
 
-    private function checkGuard(string $path)
-    {
-        foreach (self::ROUTE_GUARD_CONFIG as $route=>$roles){
-            $regEx = '^'.$route.'(/.*)?$';
-            //TODO check if path from request is guarded & if yes validate token
+    private function checkGuard(
+        string $path
+    ): array {
+        foreach (self::ROUTE_GUARD_CONFIG as $route => $roles) {
+            $regEx = sprintf('%s%s%s','[^',$route,'(/.*)?$]');
+            preg_match($regEx,$path,$matches);
+            if($matches){
+               return [true, $roles];
+            }
         }
+        return [ false, ['PUBLIC_ACCESS']];
     }
-    private function validateToken(Request $request)
+
+    private function validateToken(Request $request, array $roles)
     {
         try {
             $headerToken = $request->headers->get('Authorization');
-            JwtService::decode($headerToken);
+            $payload = JwtService::decode($headerToken);
+            $hasAccess = false;
+            foreach ($roles as $role) {
+                if (in_array($role, $payload->getRoles())) {
+                    $hasAccess = true;
+                }
+            }
+            if (!$hasAccess) {
+                throw new AuthException('You have no access to this resource!');
+            }
         } catch (InvalidArgumentException |
         DomainException |
         UnexpectedValueException |
@@ -90,15 +111,16 @@ class Router
         BeforeValidException |
         BeforeValidException |
         ExpiredException $e) {
-         throw new AuthException('Token error');
+            throw new AuthException('Token error');
         }
     }
-    private function formatError(?string $message= null): string
+
+    private function formatError(?string $message = null): string
     {
-        if(!$message) {
-            return json_encode(['status'=> 'error']);
+        if (!$message) {
+            return json_encode(['status' => 'error']);
         } else {
-            return json_encode(['status'=> 'error', 'error_message'=>$message]);
+            return json_encode(['status' => 'error', 'error_message' => $message]);
         }
     }
 }

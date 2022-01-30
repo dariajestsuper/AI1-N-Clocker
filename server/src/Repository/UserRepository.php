@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 
 class UserRepository extends EntityRepository
 {
-    public static function create(): self
+    public static function create(?\Doctrine\ORM\EntityManager $em = null): self
     {
-        return new UserRepository(EntityManager::getEntityManager(), new ClassMetadata(User::class));
+        return new UserRepository($em ?? EntityManager::getEntityManager(), new ClassMetadata(User::class));
     }
 
     public function login(string $username, string $password): User
