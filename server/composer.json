@@ -10,6 +10,17 @@
     "minimum-stability": "dev",
     "require": {
         "symfony/routing": "5.4.x-dev",
-        "symfony/http-foundation": "5.4.x-dev"
+        "symfony/http-foundation": "5.4.x-dev",
+        "zircote/swagger-php": "4.x-dev",
+        "symfony/cache": "6.1.x-dev",
+        "symfony/http-kernel": "6.1.x-dev",
+        "symfony/dependency-injection": "6.1.x-dev",
+        "symfony/messenger": "6.1.x-dev",
+        "psr/simple-cache": "3.0.x-dev",
+        "symfony/config": "6.1.x-dev",
+        "symfony/expression-language": "6.1.x-dev",
+        "doctrine/orm": "^2.11.0",
+        "doctrine/dbal": "^3.2",
+        "firebase/php-jwt": "dev-main"
     }
 }
