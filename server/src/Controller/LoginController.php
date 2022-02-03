@@ -29,7 +29,7 @@ class LoginController
     public function login(
         Request $request
     ): Response {
-        $body = json_decode($request->getContent(), true);
+        $body = json_decode($request->getContent(), true)['body'];
         $this->validatePostData($body);
         $user = $this->repository->login($body['username'], $body['password']);
         $time = new \DateTime();
@@ -57,7 +57,7 @@ class LoginController
     private function validatePostData(?array $body)
     {
         if (!isset($body['username']) || !isset($body['password'])) {
-            throw new ValidationException('Missing keys in POST body');
+            throw new ValidationException('Wrong username or password');
         }
     }
 

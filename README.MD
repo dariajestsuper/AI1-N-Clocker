@@ -7,4 +7,5 @@
 ## FRONTEND:
 - `exit`(if in docker container)
 - `cd client`
+- `npm install`
 - `npm run start`
