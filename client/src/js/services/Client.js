@@ -1,24 +1,29 @@
 export default class ApiClient {
-    basePath = '127.0.0.1:8100';
+    basePath = 'http://127.0.0.1:8100';
     token = '';
 
     constructor(token = null) {
         this.token = token;
     }
 
-    async getToken(body) {
+    async login(body) {
         const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
 
         const init = {
             method: 'post',
             headers,
-            body,
+            body: JSON.stringify(body),
             mode: 'cors',
             cache: 'default'
         };
-        const request = new Request(this.basePath + '/login')
+        const request = new Request(this.basePath + '/authorization_token')
         const response = await fetch(request, init);
-        return await response.json();
+
+        const json =  await response.json();
+        this.token = response['token']??'';
+        if(this.token.length){
+            localStorage.setItem('jwt',this.token);
+        }
+        return json;
     }
 }

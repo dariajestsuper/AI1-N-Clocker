@@ -48,9 +48,9 @@ module.exports = {
   module: {
     rules: [
         //JSX loader
-      // { test: /\.jsx$/, use: ['babel-loader'] },
       // JavaScript: Use Babel to transpile JavaScript files
-      { test: /\.js$/, use: ['babel-loader'] },
+      { test: /\.js|jsx$/, use: ['babel-loader'] },
+      // { test: /\.jsx$/, use: ['babel-loader'] },
 
       // Images: Copy image files to build folder
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
