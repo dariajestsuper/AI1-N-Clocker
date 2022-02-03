@@ -45,7 +45,8 @@ class LoginController
      */
     public function register(Request $request): Response
     {
-        $body = json_decode($request->getContent(), true);
+        $body = json_decode($request->getContent(), true)['body'];
+
         $this->validatePostData($body);
         $this->repository->register($body['username'],$body['password']);
         return new Response(json_encode(['status' => 'ok']), Response::HTTP_OK);

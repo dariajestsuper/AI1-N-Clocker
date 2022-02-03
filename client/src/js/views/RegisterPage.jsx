@@ -1,46 +1,40 @@
 import ApiClient from "@/js/services/Client";
 import {navigateTo, rerender} from "@/index";
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
 
 
     const handleDisplayMessage = (message) => {
-        const p = document.querySelector("#login-message");
+        const p = document.querySelector("#register-message");
         p.innerHTML = message;
-    }
-    const handleGoTo = () => {
-        navigateTo('/register');
     }
     const handleSubmit = async () => {
         const username = document.querySelector("#email-input").value;
         const password = document.querySelector("#password-input").value;
         if (!!password && !!username) {
             const client = new ApiClient();
-            const response = await client.login({body: {password, username}});
+            const response = await client.register({body: {password, username}});
             if (response['status'] === 'error') {
                 handleDisplayMessage(response['error_message']);
             }else {
                 console.log(response)
-                const eve = new Event('login')
+                const eve = new Event('register')
                 document.dispatchEvent(eve);
                 rerender();
-                navigateTo('/app')
+                navigateTo('/login')
             }
 
         }
     }
     return (
         <div id="login-form" className="paper">
-            <h3>Login to the system</h3>
+            <h3 id="register-title">Register</h3>
             <div>
-                <input className="text-field" id="email-input" placeholder="Enter username..."/>
+                <input className="text-field" id="email-input" placeholder="Enter email..."/>
                 <input type="password" className="text-field" id="password-input" placeholder="Enter password..."/>
             </div>
-            <div className="buttons-container">
-                <button className="button" eventListener={['click', handleSubmit]}>Submit</button>
-                <button className="button" eventListener={['click', handleGoTo]}>Register</button>
-            </div>
-            <p id="login-message"></p>
+            <button className="button" eventListener={['click', handleSubmit]}>Submit</button>
+            <p id="register-message"></p>
         </div>
     )
 };

@@ -37,6 +37,7 @@ class Router
         if ($request->getMethod() === 'OPTIONS') {
             $response = new Response(json_encode(['status'=>'ok']), Response::HTTP_OK);
             $response->headers->add(['Access-Control-Allow-Origin: *']);
+            $response->headers->add(['Access-Control-Allow-Headers' => 'authorization']);
             $response->send();
         } else {
 
@@ -71,7 +72,7 @@ class Router
                     Response::HTTP_UNAUTHORIZED
                 );
             } catch (ValidationException $exception) {
-                $response = new Response($this->formatError($exception->getMessage()));
+                $response = new Response($this->formatError($exception->getMessage()),Response::HTTP_FORBIDDEN);
             } catch (NoConfigurationException | ResourceNotFoundException | MethodNotAllowedException $e) {
                 $response = new Response($this->formatError(), Response::HTTP_NOT_FOUND);
             } catch (\Exception $exception) {

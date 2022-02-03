@@ -34,6 +34,18 @@ class ProjectController
         $this->timeLogRepository = TimeLogRepository::create($em);
     }
 
+    public function getProjects(Request $request): Response
+    {
+        $me = $this->getMe($request);
+        $projects = $this->projectRepository->findBy(['client'=>$me->getId()]);
+        return new Response(
+            json_encode(
+                $projects,
+                Response::HTTP_OK
+            )
+        );
+    }
+
     public function getProject(Request $request, int $id): Response
     {
         $project = $this->projectRepository->findOneBy(['id' => $id]);

@@ -48,6 +48,14 @@ class RoutesSystem
             )
         );
         $this->routeCollection->add(
+            'get_projects',
+            new Route(
+                path: constant('URL_SUBFOLDER').'/api/projects',
+                defaults: ['controller' => ProjectController::class, 'method' => 'getProjects'],
+                methods: ['GET']
+            )
+        );
+        $this->routeCollection->add(
             'get_project',
             new Route(
                 path: constant('URL_SUBFOLDER').'/api/projects/{id}',

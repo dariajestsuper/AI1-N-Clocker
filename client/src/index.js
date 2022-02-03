@@ -4,8 +4,10 @@ import Router from "@/js/router";
 import {routes} from "@/js/routes";
 import {routerId} from "@/config/consts";
 
-const rerender = () => {
-
+export const rerender = () => {
+    const app = document.querySelector('#root')
+    app.innerHTML = '';
+    app.append(<Layout/>)
 };
 
 const app = document.querySelector('#root')
